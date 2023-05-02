@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: '{{.Values.microservices.mainService.serviceName}}'
+  labels:
+    app: '{{.Values.microservices.mainService.serviceName}}'
+spec:
+  replicas: '{{.Values.microservices.mainService.avgReplicas}}'
+  selector:
+    matchLabels:
+      app: '{{.Values.microservices.mainService.serviceName}}'
+  template:
+    metadata:
+      labels:
+        app: '{{.Values.microservices.mainService.serviceName}}'
+    spec:
+      containers:
+      - name: '{{.Values.microservices.mainService.serviceName}}'
+        image: '{{.Values.microservices.mainService.dockerImage}}'
+        ports:
+        - containerPort: '{{.Values.microservices.mainService.containerPort}}'
+        env:
+        - name: '{{.Values.microservices.mainService.envs.MYSQL_ROOT_PASSWORD.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.mainService.serviceName}}'
+              key: '{{.Values.microservices.mainService.envs.MYSQL_ROOT_PASSWORD.name}}'
+        - name: '{{.Values.microservices.mainService.envs.MYSQL_DATABASE.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.mainService.serviceName}}'
+              key: '{{.Values.microservices.mainService.envs.MYSQL_DATABASE.name}}'
+        - name: '{{.Values.microservices.mainService.envs.DB_HOST.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.mainService.serviceName}}'
+              key: '{{.Values.microservices.mainService.envs.DB_HOST.name}}'
+        - name: '{{.Values.microservices.mainService.envs.DB_USERNAME.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.mainService.serviceName}}'
+              key: '{{.Values.microservices.mainService.envs.DB_USERNAME.name}}'
+        - name: '{{.Values.microservices.mainService.envs.DB_PASSWORD.name}}'
+          valueFrom:
+            configMapKeyRef:
+              name: '{{.Values.microservices.mainService.serviceName}}'
+              key: '{{.Values.microservices.mainService.envs.DB_PASSWORD.name}}'

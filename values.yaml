@@ -1,0 +1,24 @@
+appName: mainApp
+version: 1.0.0
+hostName: example.com
+clusterURL: https://kubernetes.default.svc
+microservices:
+  mainService:
+    configs:
+    - mysql
+    avgReplicas: 2
+    minReplicas: 1
+    maxReplicas: 5
+    dockerImage: shenalisj/spring-crud-tute:latest
+    containerPort: 8080
+    envs:
+      DB_HOST:
+        value: mysql
+      DB_PASSWORD:
+        value: shen21li
+      DB_USERNAME:
+        value: root
+      MYSQL_DATABASE:
+        value: OrdersDB
+      MYSQL_ROOT_PASSWORD:
+        value: root
